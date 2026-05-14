@@ -5,7 +5,9 @@ import axios from 'axios';
 import { io } from 'socket.io-client';
 import toast, { Toaster } from 'react-hot-toast';
 
-const API_BASE_URL = 'https://mailsentprobackend.onrender.com';
+const API_BASE_URL = window.location.hostname === 'localhost' 
+  ? 'http://localhost:5000' 
+  : 'https://mailsentprobackend.onrender.com';
 const socket = io(API_BASE_URL);
 
 export default function App() {
