@@ -5,7 +5,8 @@ import axios from 'axios';
 import { io } from 'socket.io-client';
 import toast, { Toaster } from 'react-hot-toast';
 
-const socket = io('http://127.0.0.1:5000');
+const API_BASE_URL = 'https://mailsentbackend.onrender.com';
+const socket = io(API_BASE_URL);
 
 export default function App() {
   const [campaigns, setCampaigns] = useState([]);
@@ -87,7 +88,7 @@ export default function App() {
 
   const fetchStats = async () => {
     try {
-      const res = await axios.get('http://127.0.0.1:5000/api/campaigns/stats');
+      const res = await axios.get(`${API_BASE_URL}/api/campaigns/stats`);
       setCampaigns(res.data);
       
       const totalSent = res.data.reduce((acc, curr) => acc + (curr.sent_count || 0), 0);
@@ -121,7 +122,7 @@ export default function App() {
     attachments.forEach(file => data.append('attachments', file));
 
     try {
-      await axios.post('http://127.0.0.1:5000/api/campaigns/create', data);
+      await axios.post(`${API_BASE_URL}/api/campaigns/create`, data);
       toast.success("Campaign launched!");
       setShowModal(false);
       setTimeout(fetchStats, 1000);
